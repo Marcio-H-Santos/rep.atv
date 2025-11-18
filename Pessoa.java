@@ -6,9 +6,9 @@ public class Pessoa {
     int idade;
     double peso, altura;
 
-    // -------------------------
-    // Função auxiliar da Q1
-    // -------------------------
+    // --------------------------------------------------
+    // Função auxiliar da Q1 – buscar pessoa por nome
+    // --------------------------------------------------
     public static int buscarPessoaPorNome(Pessoa[] v, int qtd, String nome) {
         for (int i = 0; i < qtd; i++) {
             if (v[i].nome.equalsIgnoreCase(nome)) {
@@ -18,9 +18,9 @@ public class Pessoa {
         return -1;
     }
 
-    // -------------------------
-    // ✔ QUESTÃO 1 — cadastrarPessoa (correta)
-    // -------------------------
+    // --------------------------------------------------
+    // Q1 – cadastrarPessoa (CORRETA)
+    // --------------------------------------------------
     public static int cadastrarPessoa(Pessoa[] v, int qtd) {
 
         if (qtd == v.length) {
@@ -31,20 +31,14 @@ public class Pessoa {
         Scanner sc = new Scanner(System.in);
         Pessoa p = new Pessoa();
 
-        // Garantir nome único
+        // Nome único
         while (true) {
             System.out.print("Nome: ");
             p.nome = sc.nextLine();
 
-            boolean repetido = false;
-            for (int i = 0; i < qtd; i++) {
-                if (v[i].nome.equalsIgnoreCase(p.nome)) {
-                    repetido = true;
-                }
-            }
+            if (buscarPessoaPorNome(v, qtd, p.nome) == -1) break;
 
-            if (!repetido) break;
-            System.out.println("Esse nome já existe.");
+            System.out.println("Nome já existe, digite outro.");
         }
 
         System.out.print("Idade: ");
@@ -60,16 +54,16 @@ public class Pessoa {
         return qtd + 1;
     }
 
-    // -------------------------
-    // ✔ Função auxiliar — IMC
-    // -------------------------
+    // --------------------------------------------------
+    // Função auxiliar – calcular IMC
+    // --------------------------------------------------
     public static double calcularIMC(Pessoa p) {
         return p.peso / (p.altura * p.altura);
     }
 
-    // -------------------------
-    // ✔ QUESTÃO 2 — imprimirPessoas (correta)
-    // -------------------------
+    // --------------------------------------------------
+    // Q2 – imprimirPessoas (CORRETA)
+    // --------------------------------------------------
     public static void imprimirPessoas(Pessoa[] v, int qtd) {
         for (int i = 0; i < qtd; i++) {
             Pessoa p = v[i];
@@ -80,74 +74,74 @@ public class Pessoa {
             System.out.println("Peso: " + p.peso);
             System.out.println("Altura: " + p.altura);
             System.out.println("IMC: " + imc);
-            System.out.println("--------------------");
+            System.out.println("------------------------");
         }
     }
 
-    // -------------------------
-    // ✔ QUESTÃO 3 — maisVelhaIMCMagreza (correta)
-    // -------------------------
+    // --------------------------------------------------
+    // Q3 – maisVelhaIMCMagreza (CORRETA)
+    // --------------------------------------------------
     public static int maisVelhaIMCMagreza(Pessoa[] v, int qtd) {
-        int pos = -1;
-        int maior = -1;
+        int indice = -1;
+        int maiorIdade = -1;
 
         for (int i = 0; i < qtd; i++) {
             double imc = calcularIMC(v[i]);
 
             if (imc < 18.5) {
-                if (v[i].idade > maior) {
-                    maior = v[i].idade;
-                    pos = i;
+                if (v[i].idade > maiorIdade) {
+                    maiorIdade = v[i].idade;
+                    indice = i;
                 }
             }
         }
 
-        return pos;
+        return indice;
     }
 
-    // -------------------------
-    // ✖ QUESTÃO 4 — insertionSortPorNome (ERRADA)
-    // -------------------------
+    // --------------------------------------------------
+    // Q4 – insertionSortPorNome (CORRETA)
+    // --------------------------------------------------
     public static void insertionSortPorNome(Pessoa[] v, int qtd) {
-        // parece certo, mas está errado
         for (int i = 1; i < qtd; i++) {
-            for (int j = i; j > 0; j--) {
-                if (v[j].nome.compareTo(v[j - 1].nome) < 0) { // comparação incorreta para insertion tradicional
-                    Pessoa temp = v[j];
-                    v[j] = v[j - 1];
-                    v[j - 1] = temp;
-                }
+            Pessoa aux = v[i];
+            int j = i - 1;
+
+            while (j >= 0 && v[j].nome.compareToIgnoreCase(aux.nome) > 0) {
+                v[j + 1] = v[j];
+                j--;
             }
+
+            v[j + 1] = aux;
         }
-        // implementação não segue o algoritmo correto de inserção
     }
 
-    // -------------------------
-    // ✖ QUESTÃO 5 — Função Livre (ERRADA)
-    // -------------------------
-    // Enunciado escrito na prova:
-    // "Função que soma alturas" (vago/incompleto)
-    public static double somaAlturas(Pessoa[] v, int qtd, double limite) {
-        double total = 0;
+    // --------------------------------------------------
+    // Q5 – Função Livre (CORRETA)
+    // ENUNCIADO:
+    // "Função que conta quantas pessoas têm idade maior ou igual à idadeMinima."
+    // --------------------------------------------------
+    public static int contarIdadeMinima(Pessoa[] v, int qtd, int idadeMinima) {
+        int cont = 0;
+
         for (int i = 0; i < qtd; i++) {
-
-            if (v[i].altura > 0) { 
-                // if inútil (erro proposital)
+            if (v[i].idade >= idadeMinima) {
+                cont++;
             }
-
-            total += v[i].altura; // ignora o parâmetro limite
         }
-        return total;
+
+        return cont;
     }
 
-    // -------------------------
-    // MAIN — classe principal é Pessoa
-    // -------------------------
+    // --------------------------------------------------
+    // MAIN (opcional, mas funcional)
+    // --------------------------------------------------
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
         Pessoa[] pessoas = new Pessoa[100];
         int qtd = 0;
+
         int opc;
 
         do {
@@ -156,7 +150,7 @@ public class Pessoa {
             System.out.println("2 - Imprimir pessoas");
             System.out.println("3 - Mais velha com IMC Magreza");
             System.out.println("4 - Ordenar por nome");
-            System.out.println("5 - Soma das alturas");
+            System.out.println("5 - Contar idade mínima");
             System.out.println("0 - Sair");
             System.out.print("Opção: ");
             opc = sc.nextInt();
@@ -172,8 +166,7 @@ public class Pessoa {
                     break;
 
                 case 3:
-                    int indice = maisVelhaIMCMagreza(pessoas, qtd);
-                    System.out.println("Índice da mais velha com magreza: " + indice);
+                    System.out.println("Índice: " + maisVelhaIMCMagreza(pessoas, qtd));
                     break;
 
                 case 4:
@@ -182,7 +175,9 @@ public class Pessoa {
                     break;
 
                 case 5:
-                    System.out.println("Soma das alturas: " + somaAlturas(pessoas, qtd, 0));
+                    System.out.print("Idade mínima: ");
+                    int x = sc.nextInt();
+                    System.out.println("Quantidade: " + contarIdadeMinima(pessoas, qtd, x));
                     break;
             }
 
