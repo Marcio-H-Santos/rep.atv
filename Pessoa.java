@@ -6,9 +6,6 @@ public class Pessoa {
     int idade;
     double peso, altura;
 
-    // --------------------------------------------------
-    // Função auxiliar da Q1 – buscar pessoa por nome
-    // --------------------------------------------------
     public static int buscarPessoaPorNome(Pessoa[] v, int qtd, String nome) {
         for (int i = 0; i < qtd; i++) {
             if (v[i].nome.equalsIgnoreCase(nome)) {
@@ -18,9 +15,6 @@ public class Pessoa {
         return -1;
     }
 
-    // --------------------------------------------------
-    // Q1 – cadastrarPessoa (CORRETA)
-    // --------------------------------------------------
     public static int cadastrarPessoa(Pessoa[] v, int qtd) {
 
         if (qtd == v.length) {
@@ -54,16 +48,10 @@ public class Pessoa {
         return qtd + 1;
     }
 
-    // --------------------------------------------------
-    // Função auxiliar – calcular IMC
-    // --------------------------------------------------
     public static double calcularIMC(Pessoa p) {
         return p.peso / (p.altura * p.altura);
     }
 
-    // --------------------------------------------------
-    // Q2 – imprimirPessoas (CORRETA)
-    // --------------------------------------------------
     public static void imprimirPessoas(Pessoa[] v, int qtd) {
         for (int i = 0; i < qtd; i++) {
             Pessoa p = v[i];
@@ -78,9 +66,6 @@ public class Pessoa {
         }
     }
 
-    // --------------------------------------------------
-    // Q3 – maisVelhaIMCMagreza (CORRETA)
-    // --------------------------------------------------
     public static int maisVelhaIMCMagreza(Pessoa[] v, int qtd) {
         int indice = -1;
         int maiorIdade = -1;
@@ -99,9 +84,6 @@ public class Pessoa {
         return indice;
     }
 
-    // --------------------------------------------------
-    // Q4 – insertionSortPorNome (CORRETA)
-    // --------------------------------------------------
     public static void insertionSortPorNome(Pessoa[] v, int qtd) {
         for (int i = 1; i < qtd; i++) {
             Pessoa aux = v[i];
@@ -116,11 +98,6 @@ public class Pessoa {
         }
     }
 
-    // --------------------------------------------------
-    // Q5 – Função Livre (CORRETA)
-    // ENUNCIADO:
-    // "Função que conta quantas pessoas têm idade maior ou igual à idadeMinima."
-    // --------------------------------------------------
     public static int contarIdadeMinima(Pessoa[] v, int qtd, int idadeMinima) {
         int cont = 0;
 
@@ -133,9 +110,6 @@ public class Pessoa {
         return cont;
     }
 
-    // --------------------------------------------------
-    // MAIN (opcional, mas funcional)
-    // --------------------------------------------------
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
